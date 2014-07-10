@@ -155,7 +155,7 @@ class wf_extendedBreadcrumb extends Module
                 //Cut PageTitle
                 if (strlen($arrPages[$i]['pageTitle']) > $intMaxLength)
                 {
-                    $strTitle = mb_substr($arrPages[$i]['pageTitle'], 0, $intCutLength) . $strPlaceholder;
+                    $strTitle = String::substrHTML($arrPages[$i]['pageTitle'], $intCutLength) . $strPlaceholder;
                 }
                 else
                 {
@@ -170,7 +170,7 @@ class wf_extendedBreadcrumb extends Module
                 //Cut Title
                 if (strlen($arrPages[$i]['title']) > $intMaxLength)
                 {
-                    $strTitle = mb_substr($arrPages[$i]['title'], 0, $intCutLength) . $strPlaceholder;
+                    $strTitle = String::substrHTML($arrPages[$i]['title'], $intCutLength) . $strPlaceholder;
                 }
                 else
                 {
@@ -208,7 +208,7 @@ class wf_extendedBreadcrumb extends Module
             //Cut PageTitle
             if (strlen($arrPages[$i]['pageTitle']) > $intMaxLength)
             {
-                $strTitle = mb_substr($arrPages[$i]['pageTitle'], 0, $intCutLength) . $strPlaceholder;
+                $strTitle = String::substrHTML($arrPages[$i]['pageTitle'], $intCutLength) . $strPlaceholder;
             }
             else
             {
@@ -223,7 +223,7 @@ class wf_extendedBreadcrumb extends Module
             //Cut Title
             if (strlen($arrPages[$i]['title']) > $intMaxLength)
             {
-                $strTitle = mb_substr($arrPages[$i]['title'], 0, $intCutLength) . $strPlaceholder;
+                $strTitle = String::substrHTML($arrPages[$i]['title'], $intCutLength) . $strPlaceholder;
             }
             else
             {
@@ -279,7 +279,7 @@ class wf_extendedBreadcrumb extends Module
             //Cut article title
             if (strlen($objArticle->title) > $intMaxLength)
             {
-                $strTitle = mb_substr($objArticle->title, 0, $intCutLength) . $strPlaceholder;
+                $strTitle = String::substrHTML($objArticle->title, $intCutLength) . $strPlaceholder;
             }
             else
             {
@@ -436,6 +436,7 @@ class wf_extendedBreadcrumb extends Module
 
         if ($booAutoItem)
         {
+
             if (is_array($GLOBALS['TL_HOOKS']['getWfAutoItem']))
             {
                 foreach ($GLOBALS['TL_HOOKS']['getWfAutoItem'] as $callback)
@@ -465,21 +466,13 @@ class wf_extendedBreadcrumb extends Module
 
             $arrItems[0]['class'] .= " first";
             $arrItems[$intLength - 1]['class'] .= " last";
-
-            // If the last one is not active, we have an unknown item e.g. auto_item
-            // So just set the element as active.
-            if($arrItems[$intLength - 1]['isActive'] == false)
-            {
-                $arrItems[$intLength - 1]['isActive'] = true;
-            }
         };
 
         //HideOnFirstLevel
-        if (($this->wf_extendedBreadcrumb_hideOnFirstLevel == 1) && count($arrItems) < 2)
+        if (($this->wf_extendedBreadcrumb_hideOnFirstLevel == 1) && count($arrItems)<2)
         {
             $arrItems = array();
         }
-
         $this->Template->items = $arrItems;
     }
 
